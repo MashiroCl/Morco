@@ -12,15 +12,17 @@ import org.jtool.eclipse.javamodel.JavaFile;
 
 public class ClassJson implements EncodeClassInfo{
 	private JavaClassInfo javaClassInfo;
+	private List<JavaClass> allClassesContainedInProject;
 	private String filePath;
 	private String javaPackage;
 	private String className;
 	private List<String> javaFields;
 	private List<String> javaMethods;
-	private List<List<String>> superClasses;
+	private List<List<List<String>>> superClasses;
 	
-	public ClassJson(JavaClassInfo javaClassInfo) {
+	public ClassJson(JavaClassInfo javaClassInfo,List<JavaClass> allClassesContainedInProject) {
 		this.javaClassInfo=javaClassInfo;		
+		this.allClassesContainedInProject=allClassesContainedInProject;
 	}
 	
 	
@@ -47,7 +49,7 @@ public class ClassJson implements EncodeClassInfo{
 	}
 
 	
-	public List<List<String>> getSuperClasses() {
+	public List<List<List<String>>> getSuperClasses() {
 		return encodeSuperClasses();
 	}
 	
@@ -68,9 +70,9 @@ public class ClassJson implements EncodeClassInfo{
 	@Override
 	public String encodeClassName() {
 		this.className=String.valueOf(
-				this.javaClassInfo.getClass().getModifiers())
+				this.javaClassInfo.getJavaClass().getModifiers())
 				+"#"
-				+this.javaClassInfo.getClass().getName();
+				+this.javaClassInfo.getJavaClass().getName();
 		return this.className;
 	}
 	
@@ -108,25 +110,14 @@ public class ClassJson implements EncodeClassInfo{
 	}
 	
 	@Override
-	public List<List<String>> encodeSuperClasses(){
+	public List<List<List<String>>> encodeSuperClasses(){
 		this.superClasses=new ArrayList<>();
-		
-		List<List<List<String>>> superClassInfo = new ArrayList<>();
+		this.javaClassInfo.setSuperClasses(this.allClassesContainedInProject);
 		
 		for(JavaClass javaClass:this.javaClassInfo.getSuperClasses()) {
-			/*
-			 * If the parent is null or java.lang.Object, we won't consider it
-			 * */
-			if(javaClass==null||javaClass.getQualifiedName().contains("java.")) {
-				continue;
-			}
 			
-			System.out.println("--------------start-----------------");
-			System.out.print(javaClass);
-			System.out.println(javaClass.getQualifiedName());
-			System.out.println("--------------end------------------");
 			
-			JavaClassInfo javaClassInfo = new JavaClassInfo(javaClass,false);
+			JavaClassInfo javaClassInfo = new JavaClassInfo(javaClass);
 			/*
 			 * Extract class modifer
 			 * 			class name 
@@ -158,7 +149,7 @@ public class ClassJson implements EncodeClassInfo{
 			methodList.add(Collections.singletonList(className));
 			methodList.add(methods);
 			
-			superClassInfo.add(methodList);
+			this.superClasses.add(methodList);
 		}
 		return this.superClasses;
 	}

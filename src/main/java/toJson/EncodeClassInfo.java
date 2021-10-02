@@ -8,5 +8,5 @@ public interface EncodeClassInfo {
 	String encodeClassName();
 	List<String> encodeJavaFields();
 	List<String> encodeJavaMethods();
-	List<List<String>> encodeSuperClasses();
+	List<List<List<String>>> encodeSuperClasses();
 }

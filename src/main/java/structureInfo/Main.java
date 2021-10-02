@@ -1,13 +1,10 @@
 package structureInfo;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.jtool.eclipse.javamodel.JavaClass;
-import org.jtool.eclipse.javamodel.JavaMethod;
 import org.jtool.eclipse.javamodel.JavaProject;
 
 import toJson.*;
@@ -19,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		String repoPath="/Users/leichen/JAVA/test_code/refactoring-toy-example";
-		repoPath="/Users/leichen/ResearchAssistant/InteractiveRebase/data/jedis";
+//		repoPath="/Users/leichen/ResearchAssistant/InteractiveRebase/data/jedis";
 		String outputJsonPath="/Users/leichen/Desktop/res.json";
 		
 		List<ClassJson> classJsonList = extractClasses(repoPath);
@@ -47,8 +44,8 @@ public class Main {
 		
 		List<ClassJson> classJsonList = new ArrayList<ClassJson>();
 		for(JavaClass eachClass:javaClasses) {
-			JavaClassInfo javaClassInfo = new JavaClassInfo(eachClass,true);
-			ClassJson classJson = new ClassJson(javaClassInfo);
+			JavaClassInfo javaClassInfo = new JavaClassInfo(eachClass);
+			ClassJson classJson = new ClassJson(javaClassInfo,javaClasses);
 			classJsonList.add(classJson);
 		}
 		return classJsonList;
