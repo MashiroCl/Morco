@@ -16,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		String repoPath="/Users/leichen/JAVA/test_code/refactoring-toy-example";
-//		repoPath="/Users/leichen/ResearchAssistant/InteractiveRebase/data/jedis";
+		repoPath="/Users/leichen/ResearchAssistant/InteractiveRebase/data/jedis";
 		String outputJsonPath="/Users/leichen/Desktop/res.json";
 		
 		List<ClassJson> classJsonList = extractClasses(repoPath);
