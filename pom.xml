@@ -3,7 +3,22 @@
   <groupId>com.mashirocl</groupId>
   <artifactId>morco</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  
+  <packaging>jar</packaging>
+<build>
+   <plugins>
+   <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.5.1</version>
+        <configuration>
+        <archive>
+        	<mainClass>structureInfo.Main</mainClass>
+        </archive>
+            <source>1.8</source>
+            <target>1.8</target>
+        </configuration>
+    </plugin>
+   </plugins>
+   </build>
   
   <dependencies>
 <dependency>

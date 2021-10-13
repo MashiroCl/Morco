@@ -7,8 +7,7 @@ import org.jtool.eclipse.javamodel.JavaClass;
 import org.jtool.eclipse.javamodel.JavaMethod;
 import org.jtool.eclipse.javamodel.JavaField;
 import org.jtool.eclipse.javamodel.JavaLocalVar;
-import org.jtool.eclipse.javamodel.JavaPackage;
-import org.jtool.eclipse.javamodel.JavaFile;
+
 
 public class ClassJson implements EncodeClassInfo{
 	private JavaClassInfo javaClassInfo;
