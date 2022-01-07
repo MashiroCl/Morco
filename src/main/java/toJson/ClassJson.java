@@ -18,6 +18,7 @@ public class ClassJson implements EncodeClassInfo{
 	private List<String> javaFields;
 	private List<String> javaMethods;
 	private List<List<List<String>>> superClasses;
+	private List<String> childClasses;
 	
 	public ClassJson(JavaClassInfo javaClassInfo,List<JavaClass> allClassesContainedInProject) {
 		this.javaClassInfo=javaClassInfo;		
@@ -50,6 +51,10 @@ public class ClassJson implements EncodeClassInfo{
 	
 	public List<List<List<String>>> getSuperClasses() {
 		return encodeSuperClasses();
+	}
+	
+	public List<String> getChildClasses(){
+		return encodeChildClasses();
 	}
 	
 	@Override
@@ -152,9 +157,12 @@ public class ClassJson implements EncodeClassInfo{
 		}
 		return this.superClasses;
 	}
-	
+	@Override
+	public List<String> encodeChildClasses(){
+		return this.javaClassInfo.getChildClasses();
+		
+	}
 
-	
 
 }
 	

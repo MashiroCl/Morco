@@ -14,9 +14,10 @@ import com.alibaba.fastjson.JSON;
 public class Main {
 
 	public static void main(String[] args) {
-		String repoPath=args[0];		
-		String outputJsonPath=args[1];
-		
+//		String repoPath=args[0];		
+//		String outputJsonPath=args[1];
+		String repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/mbassador";
+		String outputJsonPath = "/Users/leichen/Desktop/mbassador.json";
 		List<ClassJson> classJsonList = extractClasses(repoPath);
 		int classNum = classJsonList.size();
 		

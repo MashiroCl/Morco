@@ -2,7 +2,7 @@ package toJson;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.jtool.eclipse.javamodel.JavaClass;
 import org.jtool.eclipse.javamodel.JavaField;
 import org.jtool.eclipse.javamodel.JavaFile;
@@ -14,7 +14,7 @@ public class JavaClassInfo {
 	private List<JavaField> javaFields;
 	private List<JavaMethod> javaMethods;
 	private List<JavaClass> superClasses;
-//	private List<JavaClass> children;
+ 	private List<String> childClasses;
 	private JavaPackage javaPackage;
 	private JavaFile javaFile;
 	private String filePath;
@@ -26,6 +26,7 @@ public class JavaClassInfo {
 		this.javaMethods=this.javaClass.getMethods();
 		this.javaFile=this.javaClass.getFile();
 		this.superClasses= null;
+		this.childClasses = this.javaClass.getChildren().stream().map(JavaClass::getQualifiedName).collect(Collectors.toList());
 	}
 	
 	public List<JavaField> getJavaFields() {
@@ -62,6 +63,9 @@ public class JavaClassInfo {
 		for(JavaClass javaClass:javaClasses) {
 			totalClassQualifiedNames.add(javaClass.getQualifiedName());
 		}
+		/*Filter superclasses if superclasses is not in developer self-defined classes, because Jxplatform2 cannot 
+		obtain infomation from library classes
+		*/
 		for(JavaClass javaClass:curSuperClasses) {
 			if(totalClassQualifiedNames.contains(javaClass.getQualifiedName())) {
 				this.superClasses.add(javaClass);
@@ -71,6 +75,9 @@ public class JavaClassInfo {
 	
 	public List<JavaClass> getSuperClasses() {
 		return this.superClasses;
+	}
+	public List<String> getChildClasses(){
+		return this.childClasses;
 	}
 	
 }
