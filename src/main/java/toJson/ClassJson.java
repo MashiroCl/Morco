@@ -12,6 +12,7 @@ import org.jtool.eclipse.javamodel.JavaLocalVar;
 public class ClassJson implements EncodeClassInfo{
 	private JavaClassInfo javaClassInfo;
 	private List<JavaClass> allClassesContainedInProject;
+	private String localPath;
 	private String filePath;
 	private String javaPackage;
 	private String className;
@@ -20,9 +21,10 @@ public class ClassJson implements EncodeClassInfo{
 	private List<List<List<String>>> superClasses;
 	private List<String> childClasses;
 	
-	public ClassJson(JavaClassInfo javaClassInfo,List<JavaClass> allClassesContainedInProject) {
+	public ClassJson(JavaClassInfo javaClassInfo,List<JavaClass> allClassesContainedInProject,String localPath) {
 		this.javaClassInfo=javaClassInfo;		
 		this.allClassesContainedInProject=allClassesContainedInProject;
+		this.localPath = localPath;
 	}
 	
 	
@@ -60,7 +62,7 @@ public class ClassJson implements EncodeClassInfo{
 	@Override
 	public String encodeFilePath() {
 		this.filePath=this.javaClassInfo.
-				getJavaFile().getPath();
+				getJavaFile().getPath().split(this.localPath)[1];
 		return this.filePath;
 	}
 	
