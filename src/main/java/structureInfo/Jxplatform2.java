@@ -15,7 +15,7 @@ public class Jxplatform2{
 		this.extractConfigure();
 	}
 	
-	private void extractConfigure() {
+	public void extractConfigure() {
 		classpath=repository.getSourceCodeFile().toString();
 		target=repository.getSourceCodeFile().toString();
 		name=repository.getName();
@@ -28,8 +28,17 @@ public class Jxplatform2{
 		return builderBatch.build(name, target, classpath);
 		
 	}
-
-
 	
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getTarget() {
+		return this.target;
+	}
+	
+	public String getClassPath() {
+	return this.classpath;
+	}
 	
 }
