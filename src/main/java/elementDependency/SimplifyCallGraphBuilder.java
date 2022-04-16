@@ -19,7 +19,7 @@ import structureInfo.Repository;
 
 public class SimplifyCallGraphBuilder {
 	
-	private JavaClass getClass(JavaElement javaelement) {
+	protected JavaClass getClass(JavaElement javaelement) {
 		JavaClass res = null;
 		if(javaelement.getClass()==JavaMethod.class) {
 			res = ((JavaMethod)javaelement).getDeclaringClass();

@@ -42,8 +42,8 @@ public class ExtractStarter {
 		return res;
 	}
 	
-	public static List<MethodCall> startExtract(Repository repo) {
-		List<MethodCall> res = new LinkedList<>(); 	
+	public static List<DetailMethodCall> startExtract(Repository repo) {
+		List<DetailMethodCall> res = new LinkedList<>(); 	
 
 		MethodCallExtractor mce = new MethodCallExtractor(repo);
 		List<ClassLevelCallGraph> mocgs = mce.extract();
@@ -53,7 +53,7 @@ public class ExtractStarter {
 		List<ClassLevelCallGraph> ficgs = fae.buildCallIn(focgs);
 		Map<String,List<ClassLevelCallGraph>> classKeyGraph = alignment(mocgs, micgs, focgs, ficgs);
 		for(String path:classKeyGraph.keySet()) {
-			res.add(new MethodCall(classKeyGraph.get(path).get(0),
+			res.add(new DetailMethodCall(classKeyGraph.get(path).get(0),
 					classKeyGraph.get(path).get(1),
 					classKeyGraph.get(path).get(2),
 					classKeyGraph.get(path).get(3)));
@@ -80,6 +80,8 @@ public class ExtractStarter {
 	public static void main(String [] args) {
 		String repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/mbassador";
 		String jsonFilePath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/mbassador/MORCOoutput/csv/callgraph.json";
+		repoPath = "/Users/leichen/Desktop/Student";
+		jsonFilePath = "/Users/leichen/Desktop/student.json";
 		Repository repo = new Repository(repoPath);
 		String res = JSON.toJSONString(startExtract(repo), SerializerFeature.WriteMapNullValue);
 		try {
