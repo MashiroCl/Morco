@@ -77,11 +77,23 @@ public class ExtractStarter {
 		fw.close();
 	}
 	
+	public static void extract(String repoPath, String outputPath) {
+		Repository repo = new Repository(repoPath);
+		String res = JSON.toJSONString(startExtract(repo), SerializerFeature.WriteMapNullValue);
+		try {
+			writeFile(outputPath, res);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("** Call graph extraction finished\n");	
+	}
+	
 	public static void main(String [] args) {
-		String repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/mbassador";
-		String jsonFilePath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/mbassador/MORCOoutput/csv/callgraph.json";
-		repoPath = "/Users/leichen/Desktop/Student";
-		jsonFilePath = "/Users/leichen/Desktop/student.json";
+		String repoName = "redisson";
+//		repoName = "redisson";
+		String repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/"+repoName+"/";
+//		repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/redisson/redisson-spring-data/redisson-spring-data-22/";
+		String jsonFilePath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/"+repoName+"/callgraph.json";
 		Repository repo = new Repository(repoPath);
 		String res = JSON.toJSONString(startExtract(repo), SerializerFeature.WriteMapNullValue);
 		try {

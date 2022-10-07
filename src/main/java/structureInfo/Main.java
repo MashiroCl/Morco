@@ -35,6 +35,21 @@ public class Main {
 		
 	}
 	
+	public static void extract(String repoPath, String outputPath) {
+		List<ClassJson> classJsonList = extractClasses(repoPath);
+		int classNum = classJsonList.size();
+				
+		WriteJson writeJson = new WriteJson(outputPath);
+		try {
+			writeJson.write(JSON.toJSONString(classJsonList));
+		}
+		catch(IOException e) {
+			System.out.println("Output Json file path error");
+		}
+		
+		System.out.println("** Abstract representation extraction finished\n");
+	}
+	
 	
 	
 	public static List<ClassJson> extractClasses(String repoPath) {
