@@ -22,6 +22,6 @@ public class Repository {
 	public Repository(String path) {
 		this.path=Paths.get(path);
 		this.name=this.path.getFileName();
-		this.sourceCodeFile=Paths.get(this.path.toString(), "src");
+		this.sourceCodeFile=Paths.get(this.path.toString());
 	}
 }
