@@ -36,7 +36,13 @@ public class FieldAccessExtractor extends DependencyExtractor{
 			//each class contain a map, key: caller method value: callee methods
 			HashMap<JavaElement, List<JavaElement>> hashMap = new HashMap<>();
 			//obtain class dependence graph (required before obtaining call graph)
-		    ClDG cldg = getBuilder().getClDG(jclass);
+			try {
+				ClDG cldg = getBuilder().getClDG(jclass);
+			}
+			catch (NullPointerException e) {
+				continue;
+			}
+		    
 		    
 			for(JavaMethod srcmethod: jclass.getMethods()) {
 				List<JavaElement> callees = new LinkedList<>();
