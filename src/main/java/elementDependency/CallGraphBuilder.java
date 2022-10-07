@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.jtool.eclipse.javamodel.JavaClass;
 import org.jtool.eclipse.javamodel.JavaElement;
+import org.jtool.eclipse.javamodel.JavaFile;
 
 public class CallGraphBuilder extends SimplifyCallGraphBuilder{
 	public List<String> detailbuild(ClassLevelCallGraph clcg) {
@@ -16,8 +18,9 @@ public class CallGraphBuilder extends SimplifyCallGraphBuilder{
 		}
 		for(JavaElement caller:clcg.getMethodCall().keySet()) {
 			for(JavaElement callee:clcg.getMethodCall().get(caller)) {
-				String curClassPath = getClass(callee).getFile().getRelativePath();
-				callList.add(curClassPath);
+				JavaClass jc = getClass(callee);
+				if(jc==null) continue;
+				callList.add(jc.getFile().getRelativePath());
 			}
 		}
 		return callList;
