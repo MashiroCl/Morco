@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.jtool.eclipse.cfg.CFGMethodEntry;
 import org.jtool.eclipse.cfg.CFGNode;
@@ -31,12 +32,22 @@ public class MethodCallExtractor extends DependencyExtractor{
 	public List<ClassLevelCallGraph> extract() {
 		List<ClassLevelCallGraph> res = new LinkedList<>();
 		for (JavaClass jclass : getJavaProject().getClasses()) {
+			if(jclass==null) {
+				continue;
+			}
+			
 			//set class name as the name of an item in call graph
 			ClassLevelCallGraph callgraph = new ClassLevelCallGraph(jclass);
 			//each class contain a map, key: caller method value: callee methods
 			HashMap<JavaElement, List<JavaElement>> hashMap = new HashMap<>();
 			//obtain class dependence graph (required before obtaining call graph)
-		    ClDG cldg = getBuilder().getClDG(jclass);
+			try {
+				ClDG cldg = getBuilder().getClDG(jclass);
+			}
+		    catch (NullPointerException e) {
+		    	continue;
+		    }
+			
 		    
 			for(JavaMethod srcmethod: jclass.getMethods()) {
 				List<JavaElement> callees = new LinkedList<>();
