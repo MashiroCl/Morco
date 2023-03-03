@@ -1,16 +1,10 @@
 package elementDependency;
 
 import java.util.List;
-import java.util.Map;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-/**
- * 
- * @author leichen
- *
- */
-public class DetailMethodCall{
+public class CallRelationRecorder{
 	static CallGraphBuilder dcgb = new CallGraphBuilder();
 	
 	@JSONField(name = "class")
@@ -22,11 +16,9 @@ public class DetailMethodCall{
 	@JSONField(name = "methodCallIn")
 	private List<String> methodCallIn;
 	
-	@JSONField(name = "fieldAccessOut")
-	private List<String> fieldAccessOut;
+	@JSONField(name = "fieldAccess")
+	private List<String> fieldAccess;
 	
-	@JSONField(name = "fieldAccessIn")
-	private List<String> fieldAccessIn;
 	
 	public String getPath() {
 		return this.path;
@@ -40,22 +32,18 @@ public class DetailMethodCall{
 		return this.methodCallIn;
 	}
 	
-	public List<String> getFieldAccessOut(){
-		return this.fieldAccessOut;
+	public List<String> getFieldAccess(){
+		return this.fieldAccess;
 	}
 	
-	public List<String> getFieldAccessIn(){
-		return this.fieldAccessIn;
-	}
-	
-	
-	public DetailMethodCall(ClassLevelCallGraph mco, ClassLevelCallGraph mci, ClassLevelCallGraph fao,
-			ClassLevelCallGraph fai) {
+	public CallRelationRecorder(
+			ClassLevelCallGraph mco, 
+			ClassLevelCallGraph mci, 
+			ClassLevelCallGraph fa) {
 		this.path = mco.getPath();
 		this.methodCallOut = dcgb.extractMethodCalleeList(mco);
 		this.methodCallIn = dcgb.extractMethodCalleeList(mci);
-		this.fieldAccessOut = dcgb.extractMethodCalleeList(fao);
-		this.fieldAccessIn = dcgb.extractMethodCalleeList(fai);
+		this.fieldAccess = dcgb.extractFieldAccessList(fa);
 	}
-	
+
 }

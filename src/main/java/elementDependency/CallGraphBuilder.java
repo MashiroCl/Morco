@@ -10,7 +10,7 @@ import org.jtool.eclipse.javamodel.JavaElement;
 import org.jtool.eclipse.javamodel.JavaFile;
 
 public class CallGraphBuilder extends SimplifyCallGraphBuilder{
-	public List<String> detailbuild(ClassLevelCallGraph clcg) {
+	public List<String> extractMethodCalleeList(ClassLevelCallGraph clcg) {
 		List<String> callList = new LinkedList<>();
 		//all callers in a clcg belongs to a same class
 		if(clcg==null) {
@@ -25,4 +25,16 @@ public class CallGraphBuilder extends SimplifyCallGraphBuilder{
 		}
 		return callList;
 	}
+	
+	public List<String> extractFieldAccessList(ClassLevelCallGraph clcg){
+		List<String> fieldAccessList = new LinkedList<>();
+		if(clcg==null) return null;
+		for(JavaElement caller: clcg.getMethodCall().keySet()) {
+			for(JavaElement field:clcg.getMethodCall().get(caller)) {
+				fieldAccessList.add(field.toString());
+			}
+		}
+		return fieldAccessList;
+	}
+	
 }

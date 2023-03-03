@@ -42,21 +42,44 @@ public class ExtractStarter {
 		return res;
 	}
 	
-	public static List<DetailMethodCall> startExtract(Repository repo) {
-		List<DetailMethodCall> res = new LinkedList<>(); 	
-
+	public static Map<String,List<ClassLevelCallGraph>> alignment(List<ClassLevelCallGraph> mocgs, 
+			List<ClassLevelCallGraph> mlicgs, 
+			List<ClassLevelCallGraph> fas)
+	{
+			Map<String,List<ClassLevelCallGraph>> res = new HashMap<>();
+			for(ClassLevelCallGraph mocg:mocgs) {
+			String curPath =mocg.getJavaClass().getFile().getRelativePath();
+			List<ClassLevelCallGraph> callInfo = new LinkedList<>();
+			callInfo.add(mocg);
+			callInfo.add(search(mlicgs, curPath));
+			callInfo.add(search(fas, curPath));
+			res.put(curPath, callInfo);
+			}
+			
+			return res;
+	}
+	
+	public static List<CallRelationRecorder> startExtract(Repository repo) {
+//		List<DetailMethodCall> res = new LinkedList<>(); 	
+		List<CallRelationRecorder> res = new LinkedList<>();
 		MethodCallExtractor mce = new MethodCallExtractor(repo);
 		List<ClassLevelCallGraph> mocgs = mce.extract();
 		List<ClassLevelCallGraph> micgs =mce.buildCallIn(mocgs);
 		FieldAccessExtractor fae = new FieldAccessExtractor(repo);
-		List<ClassLevelCallGraph> focgs = fae.extract();
-		List<ClassLevelCallGraph> ficgs = fae.buildCallIn(focgs);
-		Map<String,List<ClassLevelCallGraph>> classKeyGraph = alignment(mocgs, micgs, focgs, ficgs);
+//		List<ClassLevelCallGraph> focgs = fae.extract();
+//		List<ClassLevelCallGraph> ficgs = fae.buildCallIn(focgs);
+		List<ClassLevelCallGraph> fas = fae.extract();
+		Map<String,List<ClassLevelCallGraph>> classKeyGraph = alignment(mocgs, micgs, fas);
 		for(String path:classKeyGraph.keySet()) {
-			res.add(new DetailMethodCall(classKeyGraph.get(path).get(0),
+//			res.add(new DetailMethodCall(classKeyGraph.get(path).get(0),
+//					classKeyGraph.get(path).get(1),
+//					classKeyGraph.get(path).get(2),
+//					classKeyGraph.get(path).get(3)));
+			res.add(new CallRelationRecorder(
+					classKeyGraph.get(path).get(0),
 					classKeyGraph.get(path).get(1),
-					classKeyGraph.get(path).get(2),
-					classKeyGraph.get(path).get(3)));
+					classKeyGraph.get(path).get(2)
+					));
 		}
 		return res;
 	}
@@ -89,7 +112,7 @@ public class ExtractStarter {
 	}
 	
 	public static void main(String [] args) {
-		String repoName = "redisson";
+		String repoName = "mbassador";
 //		repoName = "redisson";
 		String repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/"+repoName+"/";
 //		repoPath = "/Users/leichen/ResearchAssistant/InteractiveRebase/data/redisson/redisson-spring-data/redisson-spring-data-22/";

@@ -60,7 +60,6 @@ public class FieldAccessExtractor extends DependencyExtractor{
 			}
 
 			callgraph.setMethodCall(hashMap);
-
 			res.add(callgraph);
 	}
 		
